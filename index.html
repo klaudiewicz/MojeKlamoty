@@ -14,38 +14,49 @@ html[data-mode=senior]{font-size:21px;--bg:#fff;--ink:#000;--mut:#1a2820;--line:
 body{margin:0;font:400 1rem/1.4 "Atkinson Hyperlegible",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
 .wrap{max-width:880px;margin:auto;padding:1rem}
 header{background:var(--g);color:#fff}
-.top{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between}
+.top{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:flex-start}
 h1{font-size:1.6rem;margin:0}
 .seg{display:flex;border:2px solid #fff;border-radius:12px;overflow:hidden}
-.seg button{font:inherit;font-weight:700;padding:.6rem 1rem;min-height:calc(var(--btn) - .4rem);border:0;background:transparent;color:#fff;cursor:pointer}
+.seg button{font:inherit;font-weight:700;line-height:1;padding:0;width:calc(var(--btn) - .2rem);height:calc(var(--btn) - .4rem);display:grid;place-items:center;border:0;background:transparent;color:#fff;cursor:pointer}
 .seg button[aria-pressed=true]{background:#fff;color:var(--g)}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #E08A00;outline-offset:2px}
-.search{position:relative;display:block;margin:.4rem 0 .8rem}
+.searchbar{display:flex;gap:.6rem;align-items:center;margin:.4rem 0 .8rem}
+.searchbar .search{flex:1;margin:0}
+.btn.iconbtn{flex:none;width:var(--btn);padding:0;display:grid;place-items:center}
+.iconbtn svg{display:block}
+.iconbtn svg,.tab.add svg{width:1.7rem;height:1.7rem;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.search{position:relative;display:block}
 .search svg{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:1.6rem;height:1.6rem;stroke:var(--g);fill:none;stroke-width:2.6;stroke-linecap:round}
 input,select{font:inherit;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:12px;min-height:var(--btn);padding:0 .9rem;width:100%}
 .search input{padding-left:3.2rem;border-color:var(--g)}
 .btn{font:inherit;font-weight:700;min-height:var(--btn);padding:0 1.1rem;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
 .btn.pri{background:var(--g);color:#fff}
 .bar{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:.8rem}
-#tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem}
-.tab{font:inherit;font-weight:700;min-height:var(--btn);padding:0 1rem;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
+#tabs{display:flex;flex-wrap:wrap;gap:.8rem .9rem;padding-top:.7rem;margin-bottom:.4rem}
+.tab{position:relative;font:inherit;font-weight:700;min-height:var(--btn);padding:0 1rem;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
 .tab[aria-selected=true]{background:var(--g);color:#fff}
-.tab.out{border-color:var(--warn);color:var(--warn);background:var(--warnbg);margin-left:auto}
+.tab.out{border-color:var(--warn);color:var(--warn);background:var(--warnbg)}
+.tab.add{width:var(--btn);padding:0;display:grid;place-items:center;border-style:dashed}
 .tab.out[aria-selected=true]{background:var(--warn);color:#fff}
-.cnt{display:inline-block;min-width:1.5rem;padding:0 .4rem;margin-left:.3rem;border-radius:99px;background:var(--gl);color:var(--ink);font-size:.85em;text-align:center}
+.cnt{position:absolute;top:-.7rem;right:-.5rem;min-width:1.55rem;height:1.55rem;padding:0 .35rem;border-radius:99px;background:#14211B;color:#fff;border:2px solid #fff;font-size:.8rem;font-weight:700;line-height:1.3rem;text-align:center}
+.tab.out .cnt{background:#B42318}
 h2{font-size:1.25rem;margin:1.3rem 0 .4rem;padding:.45rem .9rem;border-radius:10px;background:hsl(var(--h,150) 55% 90%);color:hsl(var(--h,150) 75% 18%);border-left:.6rem solid hsl(var(--h,150) 55% 40%)}
 .brand{display:flex;align-items:center;gap:.6rem}.brand img{border-radius:10px}
 .chip.cat{background:hsl(var(--h,150) 55% 88%);color:hsl(var(--h,150) 75% 18%)}
 .note{color:var(--mut)}
 .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem;background:var(--card);border:2px solid var(--line);border-left:.55rem solid hsl(var(--h,150) 55% 40%);border-radius:14px;padding:.7rem .9rem;margin:.5rem 0}
 .row.low{background:#FFFBF0;box-shadow:0 0 0 2px var(--warn)}
-.info{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;flex:1 1 11rem}
+.info{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;flex:1 1 6rem;min-width:0}
 .info b{font-size:1.1rem}
 .min{color:var(--mut)}
 html[data-mode=senior] .min{display:none}
 .chip{font-size:.85rem;font-weight:700;padding:.1rem .6rem;border-radius:99px;background:var(--gl)}
 .chip.warn{background:var(--warnbg);color:var(--warn)}
-.ctl{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ctl{display:flex;align-items:center;gap:.5rem;flex:none;flex-wrap:nowrap;margin-left:auto}
+.row:not(.tap) .ctl{flex:0 1 auto;flex-wrap:wrap}
+.row.tap{cursor:pointer}
+.row.open{outline:3px solid var(--g);outline-offset:1px}
+.more{flex:0 0 100%;display:flex;justify-content:flex-end}
 .step{font:inherit;font-size:1.9rem;font-weight:700;line-height:1;width:var(--btn);height:var(--btn);border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
 .step.pri{background:var(--g);color:#fff}
 .qty{min-width:4.6rem;text-align:center;font-size:1.05rem}
@@ -61,7 +72,17 @@ label{display:block;font-weight:700;margin:.7rem 0 .2rem}
 .acts{display:flex;gap:.6rem;margin-top:1.1rem;justify-content:flex-end;flex-wrap:wrap}
 #toast{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,200%);background:#14211B;color:#fff;padding:.9rem 1.4rem;border-radius:14px;font-weight:700;max-width:92vw;text-align:center;transition:transform .25s;z-index:9}
 #toast.on{transform:translate(-50%,0)}
-@media(max-width:520px){.tab.out{margin-left:0}.row{flex-direction:column;align-items:stretch}.ctl{justify-content:space-between}}
+@media(max-width:520px){
+.tab.out{margin-left:0}
+.row{padding:.5rem .7rem;margin:.35rem 0;gap:.35rem .5rem;--btn:2.7rem}
+html[data-mode=senior] .row{--btn:3.3rem}
+.ctl{gap:.35rem}
+.qty{min-width:3.2rem}
+.info{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.2rem .5rem}
+.info b{font-size:1.05rem}
+.min{display:none}
+h2{margin:1rem 0 .3rem;padding:.35rem .8rem}
+}
 @media(prefers-reduced-motion:reduce){#toast{transition:none}}
 </style>
 </head>
@@ -69,18 +90,15 @@ label{display:block;font-weight:700;margin:.7rem 0 .2rem}
 <header><div class="wrap top">
   <h1 class="brand"><img src="icon.svg" alt="" width="44" height="44">Moje Klamoty</h1>
   <div class="seg" role="group" aria-label="Tryb wyświetlania">
-    <button data-act="mode" data-val="standard">Tryb Standardowy</button>
-    <button data-act="mode" data-val="senior">Tryb Seniora</button>
+    <button data-act="mode" data-val="standard" aria-label="Tryb Standardowy" title="Tryb Standardowy"><span style="font-size:.95rem">A</span></button>
+    <button data-act="mode" data-val="senior" aria-label="Tryb Seniora" title="Tryb Seniora"><span style="font-size:1.7rem">A</span></button>
   </div>
 </div></header>
 
 <div class="wrap">
-  <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M15.5 15.5 21 21"/></svg>
+  <div class="searchbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M15.5 15.5 21 21"/></svg>
     <input id="q" type="search" placeholder="Szukaj produktu…" autocomplete="off" aria-label="Szukaj produktu"></label>
-  <div class="bar">
-    <button class="btn pri" data-act="add">+ Dodaj produkt</button>
-    <button class="btn" data-act="newplace">+ Nowe miejsce</button>
-  </div>
+    <button class="btn pri iconbtn" data-act="add" aria-label="Dodaj produkt" title="Dodaj produkt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg></button></div>
   <nav id="tabs" role="tablist" aria-label="Miejsca w domu"></nav>
   <main id="main"></main>
   <footer><p>Dane są zapisane tylko na tym urządzeniu.</p><button class="link" data-act="reset">Przywróć dane startowe</button></footer>
@@ -168,7 +186,7 @@ function mergeCatalog(){
 }
 const hue=c=>{if(!(c in S.cc))S.cc[c]=Math.round(Object.keys(S.cc).length*137.508%360);return S.cc[c]};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-let S=load(),tab=S.places[0]||"_out",q="",tt;
+let S=load(),tab=S.places[0]||"_out",q="",tt,openId=null;
 S.cc=S.cc||{};mergeCatalog();
 
 function toast(m){const t=g("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2800)}
@@ -177,9 +195,10 @@ function row(p,loc){
   const low=p.qty>0&&p.qty<=p.min,id=p.id,n=esc(p.name);
   const info=`<div class="info"><b>${n}</b>${loc?`<span class="chip cat">${esc(p.category)}</span><span class="chip">${esc(p.location)}</span>`:""}${low?'<span class="chip warn">Kończy się</span>':""}<span class="min">Ostrzeżenie od: ${p.min} ${esc(p.unit)}</span></div>`;
   let ctl;
-  if(p.qty>0)ctl=`<div class="ctl"><button class="step" data-act="minus" data-id="${id}" aria-label="Mniej: ${n}">−</button><span class="qty"><b>${p.qty}</b> ${esc(p.unit)}</span><button class="step pri" data-act="plus" data-id="${id}" aria-label="Więcej: ${n}">+</button><button class="btn" data-act="edit" data-id="${id}">Edytuj</button></div>`;
+  if(p.qty>0)ctl=`<div class="ctl"><button class="step" data-act="minus" data-id="${id}" aria-label="Mniej: ${n}">−</button><span class="qty"><b>${p.qty}</b> ${esc(p.unit)}</span><button class="step pri" data-act="plus" data-id="${id}" aria-label="Więcej: ${n}">+</button></div>`;
   else ctl=`<div class="ctl"><button class="btn pri" data-act="restore" data-id="${id}">${p.hidden?"Dodaj":"Przywróć"}</button>${loc?"":`<button class="btn" data-act="hide" data-id="${id}">Ukryj z listy</button>`}</div>`;
-  return `<div class="row${low?" low":""}" style="--h:${hue(p.category)}">${info}${ctl}</div>`;
+  const tap=p.qty>0,open=tap&&openId===id;
+  return `<div class="row${low?" low":""}${tap?" tap":""}${open?" open":""}" style="--h:${hue(p.category)}" data-rowid="${id}"${tap?` tabindex="0" aria-expanded="${open}"`:""}>${info}${ctl}${open?`<div class="more"><button class="btn" data-act="edit" data-id="${id}">Edytuj produkt</button></div>`:""}</div>`;
 }
 function groups(list,loc){
   const m={};list.forEach(p=>(m[p.category]=m[p.category]||[]).push(p));
@@ -192,8 +211,9 @@ function render(){
   document.querySelectorAll("[data-act=mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.val===S.mode));
   const out=S.products.filter(p=>p.qty===0&&!p.hidden).length;
   g("tabs").innerHTML=S.places.map(pl=>{const n=S.products.filter(p=>p.location===pl&&p.qty>0).length;
-    return `<button class="tab" role="tab" aria-selected="${!q&&tab===pl}" data-act="tab" data-val="${esc(pl)}">${esc(pl)}<span class="cnt">${n}</span></button>`}).join("")
-    +`<button class="tab out" role="tab" aria-selected="${!q&&tab==="_out"}" data-act="tab" data-val="_out">Skończyło się / Do kupienia<span class="cnt">${out}</span></button>`;
+    return `<button class="tab" role="tab" aria-selected="${!q&&tab===pl}" data-act="tab" data-val="${esc(pl)}">${esc(pl)}${n?`<span class="cnt">${n}</span>`:""}</button>`}).join("")
+    +`<button class="tab out" role="tab" aria-selected="${!q&&tab==="_out"}" data-act="tab" data-val="_out">Skończyło się / Do kupienia${out?`<span class="cnt">${out}</span>`:""}</button>`
+    +`<button class="tab add" data-act="newplace" aria-label="Nowe miejsce" title="Nowe miejsce"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8M5 9.5V20h14V9.5M12 13v5M9.5 15.5h5"/></svg></button>`;
   let h="";
   if(q){
     const k=norm(q),r=S.products.filter(p=>norm(p.name).includes(k)||norm(p.category).includes(k));
@@ -235,7 +255,7 @@ g("pf").onsubmit=e=>{
     else{t={id:Date.now(),...v,hidden:false};S.products.push(t);toast("Dodano do listy: "+v.name)}
   }
   if(t.qty>0)t.hidden=false;
-  g("d1").close();q="";g("q").value="";tab=t.qty>0?t.location:"_out";render();
+  g("d1").close();openId=null;q="";g("q").value="";tab=t.qty>0?t.location:"_out";render();
 };
 g("lf").onsubmit=e=>{
   e.preventDefault();const n=g("ln").value.trim();if(!n)return;
@@ -247,10 +267,11 @@ g("pn").onchange=()=>{if(g("pid").value)return;const p=S.products.find(x=>norm(x
 g("q").oninput=e=>{q=e.target.value.trim();render()};
 
 document.addEventListener("click",e=>{
-  const b=e.target.closest("[data-act]");if(!b)return;
+  const b=e.target.closest("[data-act]");
+  if(!b){const r=e.target.closest(".row.tap");if(r){const id=+r.dataset.rowid;openId=openId===id?null:id;render();const n=document.querySelector(`.row[data-rowid="${id}"]`);if(n)n.focus({preventScroll:true})}return}
   const a=b.dataset.act,v=b.dataset.val,p=S.products.find(x=>x.id===+b.dataset.id);
   if(a==="mode"){S.mode=v;render();toast(v==="senior"?"Włączono Tryb Seniora":"Włączono Tryb Standardowy")}
-  else if(a==="tab"){tab=v;q="";g("q").value="";render()}
+  else if(a==="tab"){tab=v;openId=null;q="";g("q").value="";render()}
   else if(a==="plus"){setQty(p,p.qty+1);toast(`Zmieniono ilość: ${p.qty} ${p.unit}`)}
   else if(a==="minus"){setQty(p,p.qty-1);toast(p.qty===0?`${p.name}: skończyło się. Dodano do listy zakupów`:`Zmieniono ilość: ${p.qty} ${p.unit}`)}
   else if(a==="restore"){const w=p.hidden;setQty(p,1);toast(`${w?"Dodano":"Przywrócono"}: ${p.name} (${p.location})`)}
@@ -263,6 +284,7 @@ document.addEventListener("click",e=>{
   else if(a==="delplace"){if(confirm(`Usunąć miejsce „${tab}”?`)){S.places=S.places.filter(x=>x!==tab);tab=S.places[0]||"_out";render();toast("Usunięto miejsce")}}
   else if(a==="reset"){if(confirm("Przywrócić dane startowe? Twoje zmiany zostaną utracone.")){const m=S.mode;S=fresh();S.mode=m;mergeCatalog();tab=S.places[0];render();toast("Przywrócono dane startowe")}}
 });
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches(".row.tap")){e.preventDefault();e.target.click()}});
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 render();
 </script>
