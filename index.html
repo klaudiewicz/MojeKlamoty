@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pl" data-mode="standard">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moje Klamoty</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#1B5E43">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF2EE;--card:#fff;--ink:#14211B;--mut:#41534A;--g:#1B5E43;--gl:#D9EADF;--warn:#6F3C00;--warnbg:#FFE7B3;--line:#B4C5BB;--btn:2.9rem}
+html{font-size:16px}
+html[data-mode=senior]{font-size:21px;--bg:#fff;--ink:#000;--mut:#1a2820;--line:#1B5E43;--btn:3.7rem}
+*{box-sizing:border-box}
+body{margin:0;font:400 1rem/1.4 "Atkinson Hyperlegible",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:880px;margin:auto;padding:1rem}
+header{background:var(--g);color:#fff}
+.top{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between}
+h1{font-size:1.6rem;margin:0}
+.seg{display:flex;border:2px solid #fff;border-radius:12px;overflow:hidden}
+.seg button{font:inherit;font-weight:700;padding:.6rem 1rem;min-height:calc(var(--btn) - .4rem);border:0;background:transparent;color:#fff;cursor:pointer}
+.seg button[aria-pressed=true]{background:#fff;color:var(--g)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #E08A00;outline-offset:2px}
+.search{position:relative;display:block;margin:.4rem 0 .8rem}
+.search svg{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:1.6rem;height:1.6rem;stroke:var(--g);fill:none;stroke-width:2.6;stroke-linecap:round}
+input,select{font:inherit;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:12px;min-height:var(--btn);padding:0 .9rem;width:100%}
+.search input{padding-left:3.2rem;border-color:var(--g)}
+.btn{font:inherit;font-weight:700;min-height:var(--btn);padding:0 1.1rem;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
+.btn.pri{background:var(--g);color:#fff}
+.bar{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:.8rem}
+#tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem}
+.tab{font:inherit;font-weight:700;min-height:var(--btn);padding:0 1rem;border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--g);color:#fff}
+.tab.out{border-color:var(--warn);color:var(--warn);background:var(--warnbg);margin-left:auto}
+.tab.out[aria-selected=true]{background:var(--warn);color:#fff}
+.cnt{display:inline-block;min-width:1.5rem;padding:0 .4rem;margin-left:.3rem;border-radius:99px;background:var(--gl);color:var(--ink);font-size:.85em;text-align:center}
+h2{font-size:1.25rem;margin:1.3rem 0 .4rem;padding:.45rem .9rem;border-radius:10px;background:hsl(var(--h,150) 55% 90%);color:hsl(var(--h,150) 75% 18%);border-left:.6rem solid hsl(var(--h,150) 55% 40%)}
+.brand{display:flex;align-items:center;gap:.6rem}.brand img{border-radius:10px}
+.chip.cat{background:hsl(var(--h,150) 55% 88%);color:hsl(var(--h,150) 75% 18%)}
+.note{color:var(--mut)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem;background:var(--card);border:2px solid var(--line);border-left:.55rem solid hsl(var(--h,150) 55% 40%);border-radius:14px;padding:.7rem .9rem;margin:.5rem 0}
+.row.low{background:#FFFBF0;box-shadow:0 0 0 2px var(--warn)}
+.info{display:flex;flex-direction:column;align-items:flex-start;gap:.2rem;flex:1 1 11rem}
+.info b{font-size:1.1rem}
+.min{color:var(--mut)}
+html[data-mode=senior] .min{display:none}
+.chip{font-size:.85rem;font-weight:700;padding:.1rem .6rem;border-radius:99px;background:var(--gl)}
+.chip.warn{background:var(--warnbg);color:var(--warn)}
+.ctl{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.step{font:inherit;font-size:1.9rem;font-weight:700;line-height:1;width:var(--btn);height:var(--btn);border:2px solid var(--g);background:#fff;color:var(--g);border-radius:12px;cursor:pointer}
+.step.pri{background:var(--g);color:#fff}
+.qty{min-width:4.6rem;text-align:center;font-size:1.05rem}
+.qty b{font-size:1.4rem}
+.empty{text-align:center;padding:2rem 1rem;background:var(--card);border:2px dashed var(--line);border-radius:14px;margin-top:1rem}
+footer{margin-top:2rem;text-align:center;color:var(--mut);font-size:.9rem}
+.link{font:inherit;background:none;border:0;color:var(--g);text-decoration:underline;cursor:pointer;padding:.5rem}
+dialog{width:min(92vw,34rem);border:3px solid var(--g);border-radius:16px;padding:1.2rem;color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h3{font-size:1.4rem;margin:0 0 .6rem}
+label{display:block;font-weight:700;margin:.7rem 0 .2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));gap:.6rem}
+.acts{display:flex;gap:.6rem;margin-top:1.1rem;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,200%);background:#14211B;color:#fff;padding:.9rem 1.4rem;border-radius:14px;font-weight:700;max-width:92vw;text-align:center;transition:transform .25s;z-index:9}
+#toast.on{transform:translate(-50%,0)}
+@media(max-width:520px){.tab.out{margin-left:0}.row{flex-direction:column;align-items:stretch}.ctl{justify-content:space-between}}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+  <h1 class="brand"><img src="icon.svg" alt="" width="44" height="44">Moje Klamoty</h1>
+  <div class="seg" role="group" aria-label="Tryb wyświetlania">
+    <button data-act="mode" data-val="standard">Tryb Standardowy</button>
+    <button data-act="mode" data-val="senior">Tryb Seniora</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M15.5 15.5 21 21"/></svg>
+    <input id="q" type="search" placeholder="Szukaj produktu…" autocomplete="off" aria-label="Szukaj produktu"></label>
+  <div class="bar">
+    <button class="btn pri" data-act="add">+ Dodaj produkt</button>
+    <button class="btn" data-act="newplace">+ Nowe miejsce</button>
+  </div>
+  <nav id="tabs" role="tablist" aria-label="Miejsca w domu"></nav>
+  <main id="main"></main>
+  <footer><p>Dane są zapisane tylko na tym urządzeniu.</p><button class="link" data-act="reset">Przywróć dane startowe</button></footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="d1"><form id="pf">
+  <h3 id="pt">Nowy produkt</h3><input type="hidden" id="pid">
+  <label for="pn">Nazwa</label><datalist id="names"></datalist><input id="pn" list="names" required maxlength="60" placeholder="np. Mleko">
+  <label for="pc">Kategoria</label><input id="pc" list="cats" maxlength="30" placeholder="np. Nabiał">
+  <datalist id="cats"></datalist>
+  <label for="pl">Miejsce</label><select id="pl"></select>
+  <div class="grid">
+    <div><label for="pq">Ilość</label><input id="pq" type="number" min="0" step="any" inputmode="decimal"></div>
+    <div><label for="pu">Jednostka</label><input id="pu" list="units" maxlength="12"><datalist id="units"><option>szt.<option>kg<option>opak.<option>l<option>rolka<option>g</datalist></div>
+    <div><label for="pm">Ostrzeż od</label><input id="pm" type="number" min="0" step="any" inputmode="decimal"></div>
+  </div>
+  <div class="acts"><button type="button" class="btn" data-act="close">Anuluj</button><button class="btn pri">Zapisz</button></div>
+</form></dialog>
+
+<dialog id="d2"><form id="lf">
+  <h3>Nowe miejsce</h3>
+  <label for="ln">Nazwa miejsca</label><input id="ln" required maxlength="24" placeholder="np. Garaż">
+  <div class="acts"><button type="button" class="btn" data-act="close">Anuluj</button><button class="btn pri">Dodaj miejsce</button></div>
+</form></dialog>
+
+<script>
+const KEY="klamoty-v1";
+// Startowa baza produktów (JSON): id, name, category, qty, unit, location, min
+const SEED=[
+{"id":1,"name":"Mleko 3,2%","category":"Nabiał","qty":2,"unit":"szt.","location":"Kuchnia","min":2},
+{"id":2,"name":"Masło","category":"Nabiał","qty":1,"unit":"szt.","location":"Kuchnia","min":1},
+{"id":3,"name":"Jajka","category":"Nabiał","qty":10,"unit":"szt.","location":"Kuchnia","min":6},
+{"id":4,"name":"Ser żółty","category":"Nabiał","qty":1,"unit":"opak.","location":"Kuchnia","min":1},
+{"id":5,"name":"Mąka pszenna","category":"Mąki/Kasze","qty":2,"unit":"kg","location":"Kuchnia","min":1},
+{"id":6,"name":"Ryż","category":"Mąki/Kasze","qty":1,"unit":"kg","location":"Kuchnia","min":1},
+{"id":7,"name":"Kasza gryczana","category":"Mąki/Kasze","qty":3,"unit":"opak.","location":"Kuchnia","min":1},
+{"id":8,"name":"Makaron","category":"Mąki/Kasze","qty":4,"unit":"opak.","location":"Kuchnia","min":2},
+{"id":9,"name":"Cukier","category":"Mąki/Kasze","qty":2,"unit":"kg","location":"Kuchnia","min":1},
+{"id":10,"name":"Sól","category":"Mąki/Kasze","qty":0,"unit":"kg","location":"Kuchnia","min":1},
+{"id":11,"name":"Czekolada","category":"Słodycze","qty":3,"unit":"szt.","location":"Kuchnia","min":1},
+{"id":12,"name":"Herbata","category":"Napoje","qty":1,"unit":"opak.","location":"Kuchnia","min":1},
+{"id":13,"name":"Kawa","category":"Napoje","qty":1,"unit":"opak.","location":"Kuchnia","min":1},
+{"id":14,"name":"Pomidory w puszce","category":"Puszki","qty":6,"unit":"szt.","location":"Schowek","min":3},
+{"id":15,"name":"Kukurydza w puszce","category":"Puszki","qty":2,"unit":"szt.","location":"Schowek","min":2},
+{"id":16,"name":"Fasola w puszce","category":"Puszki","qty":3,"unit":"szt.","location":"Schowek","min":2},
+{"id":17,"name":"Tuńczyk w puszce","category":"Puszki","qty":2,"unit":"szt.","location":"Schowek","min":2},
+{"id":18,"name":"Płyn do naczyń","category":"Chemia","qty":2,"unit":"szt.","location":"Schowek","min":1},
+{"id":19,"name":"Proszek do prania","category":"Chemia","qty":1,"unit":"opak.","location":"Schowek","min":1},
+{"id":20,"name":"Worki na śmieci","category":"Chemia","qty":3,"unit":"rolka","location":"Schowek","min":1},
+{"id":21,"name":"Ścierki kuchenne","category":"Tekstylia","qty":4,"unit":"szt.","location":"Schowek","min":2},
+{"id":22,"name":"Olej","category":"Puszki","qty":0,"unit":"l","location":"Schowek","min":1},
+{"id":23,"name":"Papier toaletowy","category":"Higiena","qty":8,"unit":"rolka","location":"Łazienka","min":4},
+{"id":24,"name":"Mydło","category":"Higiena","qty":3,"unit":"szt.","location":"Łazienka","min":2},
+{"id":25,"name":"Pasta do zębów","category":"Higiena","qty":2,"unit":"szt.","location":"Łazienka","min":1},
+{"id":26,"name":"Szampon","category":"Higiena","qty":0,"unit":"szt.","location":"Łazienka","min":1},
+{"id":27,"name":"Ręczniki kąpielowe","category":"Tekstylia","qty":4,"unit":"szt.","location":"Łazienka","min":2},
+{"id":28,"name":"Płyn do WC","category":"Chemia","qty":1,"unit":"szt.","location":"Łazienka","min":1}
+];
+const CAT_DEF={"Tekstylia":["Kuchnia","szt."],"Nabiał i produkty chłodnicze/trwałe":["Kuchnia","szt."],"Puszki i konserwy":["Schowek","szt."],"Mąki i produkty do pieczenia":["Kuchnia","opak."],"Kasze, ryże i makarony":["Kuchnia","opak."],"Orzechy, nasiona i bakalie":["Kuchnia","opak."],"Napoje":["Kuchnia","szt."],"Słodycze i przekąski":["Kuchnia","szt."],"Przyprawy i dodatki":["Kuchnia","opak."],"Przetwory i słoiki":["Schowek","szt."],"Oleje i octy":["Kuchnia","szt."]};
+// Katalog: dopisz tu nowe produkty (kategoria → lista nazw). Po odświeżeniu strony trafią do wyszukiwarki.
+const CATALOG={
+"Tekstylia":["Ścierki kuchenne z mikrofibry","Ręczniki lniane do naczyń","Fartuch kuchenny","Woreczki bawełniane na pieczywo","Woreczki siatkowe na warzywa","Rękawice kuchenne chwytaki","Serwetki materiałowe","Podkładki pod talerze","Bieżnik na stół","Worki jutowe na ziemniaki"],
+"Nabiał i produkty chłodnicze/trwałe":["Mleko UHT 3,2%","Mleko zagęszczone w puszce","Masło klarowane (Ghee)","Mleko w proszku","Mleczko kokosowe w puszce","Ser parmezan (kawałek próżniowy)","Napój owsiany UHT","Napój migdałowy UHT","Śmietanka UHT 30%","Twaróg w próżni (długoterminowy)"],
+"Puszki i konserwy":["Tuńczyk w sosie własnym","Pomidory krojone w puszce","Kukurydza konserwowa","Czerwona fasola w puszce","Ciecierzyca w puszce","Sardynki w oleju","Pasztet drobiowy","Mielonka turystyczna","Ananas w plastrach w syropie","Groszek konserwowy"],
+"Mąki i produkty do pieczenia":["Mąka pszenna typ 500","Mąka pszenna chlebowa typ 750","Mąka żytnia typ 720","Mąka orkiszowa","Mąka kukurydziana","Mąka migdałowa","Proszek do pieczenia","Drożdże suche instant","Soda oczyszczona","Skrobia ziemniaczana"],
+"Kasze, ryże i makarony":["Kasza gryczana palona","Kasza jęczmienna wiejska","Kasza jaglana","Kasza kuskus","Kasza bulgur","Ryż basmati","Ryż jaśminowy","Ryż do risotto (Arborio)","Makaron spaghetti","Makaron świderki (Fusilli)"],
+"Orzechy, nasiona i bakalie":["Orzechy włoskie","Migdały","Orzechy nerkowca","Orzechy laskowe","Nasiona słonecznika","Pestki dyni","Nasiona chia","Siemię lniane","Rodzynki sułtańskie","Żurawina suszona"],
+"Napoje":["Woda mineralna niegazowana","Kawa ziarnista","Herbata czarna liściasta","Herbata zielona","Herbata rumiankowa","Sok jabłkowy 100% w kartonie","Syrop malinowy do wody","Kawa rozpuszczalna","Kakao naturalne","Napój izotoniczny"],
+"Słodycze i przekąski":["Czekolada gorzka 70%","Czekolada mleczna","Wafle ryżowe","Krakersy słone","Paluszki z solą","Batoniki zbożowe","Żelki owocowe","Biszkopty","Ciastka owsiane","Popcorn do mikrofalówki"],
+"Przyprawy i dodatki":["Sól morska drobna","Pieprz czarny ziarnisty","Papryka słodka mielona","Majeranek suszony","Oregano","Liść laurowy","Ziele angielskie","Czosnek granulowany","Cukier wanilinowy","Cynamon mielony"],
+"Przetwory i słoiki":["Ogórki kiszone","Ogórki konserwowe","Dżem truskawkowy","Powidła śliwkowe","Miód wielokwiatowy","Chrzan tarty","Musztarda delikatesowa","Majonez","Przecier pomidorowy (Passata)","Grzyby marynowane"],
+"Oleje i octy":["Olej rzepakowy","Olej słonecznikowy","Oliwa z oliwek extra virgin","Olej kokosowy","Olej sezamowy","Ocet spirytusowy 10%","Ocet jabłkowy","Ocet balsamiczny","Olej z pierwszego tłoczenia na zimno","Sos sojowy"]
+};
+const g=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l");
+const fresh=()=>({products:SEED.map(p=>({...p,hidden:false})),places:["Kuchnia","Schowek","Łazienka"],mode:"standard",cc:{}});
+function load(){for(const k of [KEY,"spizarnia-v1"]){try{const s=JSON.parse(localStorage.getItem(k));if(s&&s.products&&s.places)return s}catch(e){}}return fresh()}
+function mergeCatalog(){
+  let id=Math.max(0,...S.products.map(p=>p.id));
+  for(const c in CATALOG){const d=CAT_DEF[c]||["Kuchnia","szt."],loc=S.places.includes(d[0])?d[0]:(S.places[0]||"Kuchnia");
+    CATALOG[c].forEach(n=>{if(!S.products.some(p=>norm(p.name)===norm(n)))S.products.push({id:++id,name:n,category:c,qty:0,unit:d[1],location:loc,min:1,hidden:true})})}
+}
+const hue=c=>{if(!(c in S.cc))S.cc[c]=Math.round(Object.keys(S.cc).length*137.508%360);return S.cc[c]};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let S=load(),tab=S.places[0]||"_out",q="",tt;
+S.cc=S.cc||{};mergeCatalog();
+
+function toast(m){const t=g("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2800)}
+
+function row(p,loc){
+  const low=p.qty>0&&p.qty<=p.min,id=p.id,n=esc(p.name);
+  const info=`<div class="info"><b>${n}</b>${loc?`<span class="chip cat">${esc(p.category)}</span><span class="chip">${esc(p.location)}</span>`:""}${low?'<span class="chip warn">Kończy się</span>':""}<span class="min">Ostrzeżenie od: ${p.min} ${esc(p.unit)}</span></div>`;
+  let ctl;
+  if(p.qty>0)ctl=`<div class="ctl"><button class="step" data-act="minus" data-id="${id}" aria-label="Mniej: ${n}">−</button><span class="qty"><b>${p.qty}</b> ${esc(p.unit)}</span><button class="step pri" data-act="plus" data-id="${id}" aria-label="Więcej: ${n}">+</button><button class="btn" data-act="edit" data-id="${id}">Edytuj</button></div>`;
+  else ctl=`<div class="ctl"><button class="btn pri" data-act="restore" data-id="${id}">${p.hidden?"Dodaj":"Przywróć"}</button>${loc?"":`<button class="btn" data-act="hide" data-id="${id}">Ukryj z listy</button>`}</div>`;
+  return `<div class="row${low?" low":""}" style="--h:${hue(p.category)}">${info}${ctl}</div>`;
+}
+function groups(list,loc){
+  const m={};list.forEach(p=>(m[p.category]=m[p.category]||[]).push(p));
+  return Object.keys(m).sort((a,b)=>a.localeCompare(b,"pl")).map(c=>`<section style="--h:${hue(c)}"><h2>${esc(c)}</h2>${m[c].sort((a,b)=>a.name.localeCompare(b.name,"pl")).map(p=>row(p,loc)).join("")}</section>`).join("");
+}
+const addBtn='<button class="btn pri" data-act="add">+ Dodaj produkt</button>';
+
+function render(){
+  document.documentElement.dataset.mode=S.mode;
+  document.querySelectorAll("[data-act=mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.val===S.mode));
+  const out=S.products.filter(p=>p.qty===0&&!p.hidden).length;
+  g("tabs").innerHTML=S.places.map(pl=>{const n=S.products.filter(p=>p.location===pl&&p.qty>0).length;
+    return `<button class="tab" role="tab" aria-selected="${!q&&tab===pl}" data-act="tab" data-val="${esc(pl)}">${esc(pl)}<span class="cnt">${n}</span></button>`}).join("")
+    +`<button class="tab out" role="tab" aria-selected="${!q&&tab==="_out"}" data-act="tab" data-val="_out">Skończyło się / Do kupienia<span class="cnt">${out}</span></button>`;
+  let h="";
+  if(q){
+    const k=norm(q),r=S.products.filter(p=>norm(p.name).includes(k)||norm(p.category).includes(k));
+    h=`<h2>Wyniki wyszukiwania: ${r.length}</h2>`+(r.length?r.map(p=>row(p,true)).join(""):`<div class="empty"><p>Nie znaleziono „${esc(q)}”.</p>${addBtn}</div>`)
+      +`<div class="bar"><button class="btn" data-act="clearq">Wyczyść wyszukiwanie</button></div>`;
+  }else if(tab==="_out"){
+    const l=S.products.filter(p=>p.qty===0&&!p.hidden);
+    h=`<p class="note">Tu są produkty, które się skończyły. Kliknij „Przywróć”, gdy kupisz nowe.</p>`+(l.length?groups(l):`<div class="empty"><p>Nic się nie skończyło. Wszystko jest na stanie.</p></div>`);
+  }else{
+    const l=S.products.filter(p=>p.location===tab&&p.qty>0);
+    h=l.length?groups(l):`<div class="empty"><p>Tu jeszcze nic nie ma.</p>${addBtn}</div>`;
+    if(!S.products.some(p=>p.location===tab))h+=`<div class="bar" style="margin-top:1rem"><button class="btn" data-act="delplace">Usuń miejsce „${esc(tab)}”</button></div>`;
+  }
+  g("main").innerHTML=h;
+  save();
+}
+
+function setQty(p,n){p.qty=Math.max(0,Math.round(n*100)/100);if(p.qty>0)p.hidden=false;render()}
+
+function openForm(id){
+  const p=S.products.find(x=>x.id===id)||{name:"",category:"",location:S.places.includes(tab)?tab:S.places[0],qty:1,unit:"szt.",min:1};
+  g("pt").textContent=id?"Edytuj produkt":"Nowy produkt";
+  g("pid").value=id||"";g("pn").value=p.name;g("pc").value=p.category;g("pq").value=p.qty;g("pu").value=p.unit;g("pm").value=p.min;
+  g("pl").innerHTML=S.places.map(x=>`<option${x===p.location?" selected":""}>${esc(x)}</option>`).join("");
+  g("names").innerHTML=S.products.map(x=>`<option value="${esc(x.name)}">`).join("");
+  g("cats").innerHTML=[...new Set(S.products.map(x=>x.category))].map(c=>`<option value="${esc(c)}">`).join("");
+  g("d1").showModal();
+}
+
+g("pf").onsubmit=e=>{
+  e.preventDefault();
+  const v={name:g("pn").value.trim(),category:g("pc").value.trim()||"Inne",location:g("pl").value,qty:Math.max(0,+g("pq").value||0),unit:g("pu").value.trim()||"szt.",min:Math.max(0,+g("pm").value||0)};
+  if(!v.name)return;
+  const id=+g("pid").value;let t;
+  if(id){t=S.products.find(x=>x.id===id);Object.assign(t,v);toast("Zapisano zmiany")}
+  else{
+    t=S.products.find(x=>norm(x.name)===norm(v.name)&&x.location===v.location);
+    if(t){t.qty+=v.qty;t.category=v.category;t.unit=v.unit;toast("Zwiększono ilość: "+t.name)}
+    else{t={id:Date.now(),...v,hidden:false};S.products.push(t);toast("Dodano do listy: "+v.name)}
+  }
+  if(t.qty>0)t.hidden=false;
+  g("d1").close();q="";g("q").value="";tab=t.qty>0?t.location:"_out";render();
+};
+g("lf").onsubmit=e=>{
+  e.preventDefault();const n=g("ln").value.trim();if(!n)return;
+  if(S.places.some(x=>norm(x)===norm(n)))toast("Takie miejsce już jest");
+  else{S.places.push(n);tab=n;q="";g("q").value="";toast("Dodano miejsce: "+n)}
+  g("d2").close();render();
+};
+g("pn").onchange=()=>{if(g("pid").value)return;const p=S.products.find(x=>norm(x.name)===norm(g("pn").value));if(p){g("pc").value=p.category;g("pu").value=p.unit;g("pl").value=p.location;g("pm").value=p.min}};
+g("q").oninput=e=>{q=e.target.value.trim();render()};
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const a=b.dataset.act,v=b.dataset.val,p=S.products.find(x=>x.id===+b.dataset.id);
+  if(a==="mode"){S.mode=v;render();toast(v==="senior"?"Włączono Tryb Seniora":"Włączono Tryb Standardowy")}
+  else if(a==="tab"){tab=v;q="";g("q").value="";render()}
+  else if(a==="plus"){setQty(p,p.qty+1);toast(`Zmieniono ilość: ${p.qty} ${p.unit}`)}
+  else if(a==="minus"){setQty(p,p.qty-1);toast(p.qty===0?`${p.name}: skończyło się. Dodano do listy zakupów`:`Zmieniono ilość: ${p.qty} ${p.unit}`)}
+  else if(a==="restore"){const w=p.hidden;setQty(p,1);toast(`${w?"Dodano":"Przywrócono"}: ${p.name} (${p.location})`)}
+  else if(a==="hide"){p.hidden=true;render();toast("Ukryto z listy. Znajdziesz go w wyszukiwarce")}
+  else if(a==="edit")openForm(p.id);
+  else if(a==="add")openForm();
+  else if(a==="newplace"){g("ln").value="";g("d2").showModal()}
+  else if(a==="close")b.closest("dialog").close();
+  else if(a==="clearq"){q="";g("q").value="";render()}
+  else if(a==="delplace"){if(confirm(`Usunąć miejsce „${tab}”?`)){S.places=S.places.filter(x=>x!==tab);tab=S.places[0]||"_out";render();toast("Usunięto miejsce")}}
+  else if(a==="reset"){if(confirm("Przywrócić dane startowe? Twoje zmiany zostaną utracone.")){const m=S.mode;S=fresh();S.mode=m;mergeCatalog();tab=S.places[0];render();toast("Przywrócono dane startowe")}}
+});
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+render();
+</script>
+</body>
+</html>
